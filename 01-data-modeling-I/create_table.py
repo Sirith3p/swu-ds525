@@ -1,34 +1,76 @@
+from typing import NewType
 import psycopg2
 
 
-table_drop = "DROP TABLE IF EXISTS songplays"
+PostgresCursor = NewType("PostgresCursor", psycopg2.extensions.cursor)
+PostgresConn = NewType("PostgresConn", psycopg2.extensions.connection)
 
-table_create = """
-    CREATE TABLE IF NOT EXISTS event (
-    id INTEGER,
-    type TEXT,
-    actor INTEGER,
-    repo INTEGER,
-    payload TEXT,
-    public BOOLEAN,
-    create_at TEXT,
-    org INTEGER);
+table_drop_events = "DROP TABLE IF EXISTS events"
+table_drop_actors = "DROP TABLE IF EXISTS actors"
+table_drop_repo = "DROP TABLE IF EXISTS repo"
+table_drop_org = "DROP TABLE IF EXISTS org"
+table_drop_payload = "DROP TABLE IF EXISTS payload"
 
-    CREATE TABLE IF NOT EXISTS actor (
-    id INTEGER,
-    login TEXT,
-    display_login TEXT,
-    gravatar_id INTEGER,
-    url TEXT,
-    avatar_url TEXT); 
+table_create_actors = """
+    CREATE TABLE IF NOT EXISTS actors (
+        id bigint NOT NULL,
+        login text,
+        display_login text,
+        gravatar_id text,
+        url text,
+        avatar_url text,
+        PRIMARY KEY(id)
+    )
+"""
+
+table_create_repo = """
+    CREATE TABLE IF NOT EXISTS repo(
+        id bigint NOT NULL,
+        name text,
+        url text,
+        PRIMARY KEY(id)
+    )
+"""
+table_create_org = """
+    CREATE TABLE IF NOT EXISTS org (
+        id bigint NOT NULL,
+        login text,
+        gravatar_id text,
+        url text,
+        avatar_url text,
+        PRIMARY KEY(id)
+    )
+"""
+
+table_create_events = """
+    CREATE TABLE IF NOT EXISTS events (
+        id bigint,
+        type text,
+        actor_id bigint,
+        repo_id bigint,
+        public text,
+        created_at text,
+        org_id bigint,
+        PRIMARY KEY(id),
+        CONSTRAINT fk_actor FOREIGN KEY(actor_id) REFERENCES actors(id),
+        CONSTRAINT fk_repo FOREIGN KEY(repo_id) REFERENCES repo(id),
+        CONSTRAINT fk_org FOREIGN KEY(org_id) REFERENCES org(id)
+    )
 """
 
 create_table_queries = [
-    table_create,
+    table_create_actors,
+    table_create_repo,
+    table_create_org,
+    table_create_events,
 ]
 drop_table_queries = [
-    table_drop,
+    table_drop_events,
+    table_drop_actors,
+    table_create_repo,
+    table_create_org
 ]
+
 
 
 def drop_tables(cur, conn) -> None:

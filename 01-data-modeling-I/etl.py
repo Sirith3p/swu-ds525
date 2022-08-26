@@ -6,14 +6,6 @@ from typing import List
 import psycopg2
 
 
-table_insert = """
-    INSERT INTO users (
-        xxx
-    ) VALUES (%s)
-    ON CONFLICT (xxx) DO NOTHING
-"""
-
-
 def get_files(filepath: str) -> List[str]:
     """
     Description: This function is responsible for listing the files in a directory
@@ -40,9 +32,111 @@ def process(cur, conn, filepath):
             data = json.loads(f.read())
             for each in data:
                 # Print some sample data
-                print(each["id"], each["type"], each["actor"]["login"])
+                
+                if each["type"] == "IssueCommentEvent":
+                    print(
+                        each["id"], 
+                        each["type"],
+                        each["actor"]["id"],
+                        each["actor"]["login"],
+                        each["repo"]["id"],
+                        each["repo"]["name"],
+                        each["created_at"],
+                        each["payload"]["issue"]["url"],
+                    )
+                else:
+                    print(
+                        each["id"], 
+                        each["type"],
+                        each["actor"]["id"],
+                        each["actor"]["login"],
+                        each["repo"]["id"],
+                        each["repo"]["name"],
+                        each["created_at"],
+                    )
 
                 # Insert data into tables here
+                insert_actors_statement = f"""
+                    INSERT INTO actors (
+                        id,
+                        login,
+                        display_login,
+                        gravatar_id,
+                        url,
+                        avatar_url
+                    ) VALUES ({each["actor"]["id"]}, '{each["actor"]["login"]}',
+                    '{each["actor"]["display_login"]}','{each["actor"]["gravatar_id"]}',
+                    '{each["actor"]["url"]}','{each["actor"]["avatar_url"]}')
+                    ON CONFLICT (id) DO NOTHING
+                """
+                # print(insert_statement)
+                cur.execute(insert_actors_statement)
+
+                # Insert data into tables here
+                insert_repo_statement = f"""
+                    INSERT INTO repo (
+                        id,
+                        name,
+                        url
+                    ) VALUES ({each["repo"]["id"]}, '{each["repo"]["name"]}',
+                    '{each["repo"]["url"]}')
+                    ON CONFLICT (id) DO NOTHING
+                """
+                # print(insert_statement)
+                cur.execute(insert_repo_statement)
+
+                # Insert data into tables here
+                if each["type"] == "IssueCommentEvent":
+                    insert_org_statement = f"""
+                        INSERT INTO org (
+                            id,
+                            login,
+                            gravatar_id,
+                            url,
+                            avatar_url)
+                        VALUES ({each["org"]["id"]}, '{each["org"]["login"]}',
+                        '{each["org"]["gravatar_id"]}',
+                        '{each["org"]["url"]}','{each["org"]["avatar_url"]}')
+                        ON CONFLICT (id) DO NOTHING
+                    """
+                    # print(insert_statement)
+                    cur.execute(insert_org_statement)
+
+                # Insert data into tables here
+                    insert_statement = f"""
+                        INSERT INTO events (
+                            id,
+                            type,
+                            actor_id,
+                            repo_id,
+                            public,
+                            created_at,
+                            org_id
+                        ) VALUES ('{each["id"]}', '{each["type"]}', '{each["actor"]["id"]}',
+                        '{each["repo"]["id"]}','{each["public"]}','{each["created_at"]}','{each["org"]["id"]}')
+                        ON CONFLICT (id) DO NOTHING
+                    """
+                # print(insert_statement)
+                    cur.execute(insert_statement)
+
+                else:
+                # Insert data into tables here
+                    insert_statement = f"""
+                        INSERT INTO events (
+                            id,
+                            type,
+                            actor_id,
+                            repo_id,
+                            public,
+                            created_at
+                        ) VALUES ('{each["id"]}', '{each["type"]}', '{each["actor"]["id"]}',
+                        '{each["repo"]["id"]}','{each["public"]}','{each["created_at"]}')
+                        ON CONFLICT (id) DO NOTHING
+                    """
+                # print(insert_statement)
+                    cur.execute(insert_statement)
+
+                conn.commit()
 
 
 def main():
@@ -58,3 +152,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

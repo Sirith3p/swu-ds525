@@ -5,12 +5,14 @@ import psycopg2
 PostgresCursor = NewType("PostgresCursor", psycopg2.extensions.cursor)
 PostgresConn = NewType("PostgresConn", psycopg2.extensions.connection)
 
+#drop previous created table in database
 table_drop_events = "DROP TABLE IF EXISTS events"
 table_drop_actors = "DROP TABLE IF EXISTS actors"
 table_drop_repo = "DROP TABLE IF EXISTS repo"
 table_drop_org = "DROP TABLE IF EXISTS org"
 table_drop_payload = "DROP TABLE IF EXISTS payload"
 
+#create the actors table that consists of 6 columns and assign id as the primary key
 table_create_actors = """
     CREATE TABLE IF NOT EXISTS actors (
         id bigint NOT NULL,
@@ -22,7 +24,7 @@ table_create_actors = """
         PRIMARY KEY(id)
     )
 """
-
+#create the repo table that consists of 3 columns and assign id as the primary key
 table_create_repo = """
     CREATE TABLE IF NOT EXISTS repo(
         id bigint NOT NULL,
@@ -31,6 +33,7 @@ table_create_repo = """
         PRIMARY KEY(id)
     )
 """
+#create the org table that consists of 5 columns and assign id as the primary key
 table_create_org = """
     CREATE TABLE IF NOT EXISTS org (
         id bigint NOT NULL,
@@ -41,7 +44,8 @@ table_create_org = """
         PRIMARY KEY(id)
     )
 """
-
+#create the event table that consists of 7 columns and assign id as the primary key 
+#and actor_id, repo_id, org_id as foreign key of actor, repo and org tables, respectively
 table_create_events = """
     CREATE TABLE IF NOT EXISTS events (
         id bigint,

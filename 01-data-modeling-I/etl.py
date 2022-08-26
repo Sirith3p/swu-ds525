@@ -55,7 +55,7 @@ def process(cur, conn, filepath):
                         each["created_at"],
                     )
 
-                # Insert data into tables here
+                # Insert data into actors table here
                 insert_actors_statement = f"""
                     INSERT INTO actors (
                         id,
@@ -72,7 +72,7 @@ def process(cur, conn, filepath):
                 # print(insert_statement)
                 cur.execute(insert_actors_statement)
 
-                # Insert data into tables here
+                # Insert data into repo table here
                 insert_repo_statement = f"""
                     INSERT INTO repo (
                         id,
@@ -85,7 +85,7 @@ def process(cur, conn, filepath):
                 # print(insert_statement)
                 cur.execute(insert_repo_statement)
 
-                # Insert data into tables here
+                # Insert data which has event type of IssueCommentEvent into org and event tables here
                 if each["type"] == "IssueCommentEvent":
                     insert_org_statement = f"""
                         INSERT INTO org (
@@ -102,7 +102,7 @@ def process(cur, conn, filepath):
                     # print(insert_statement)
                     cur.execute(insert_org_statement)
 
-                # Insert data into tables here
+                # Insert data into event table here
                     insert_statement = f"""
                         INSERT INTO events (
                             id,
@@ -120,7 +120,7 @@ def process(cur, conn, filepath):
                     cur.execute(insert_statement)
 
                 else:
-                # Insert data into tables here
+                # Insert data which does not have org data into event table here
                     insert_statement = f"""
                         INSERT INTO events (
                             id,

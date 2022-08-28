@@ -85,8 +85,8 @@ def process(cur, conn, filepath):
                 # print(insert_statement)
                 cur.execute(insert_repo_statement)
 
-                # Insert data which has event type of IssueCommentEvent into org and event tables here
-                if each["type"] == "IssueCommentEvent":
+                # Try insert data into org and event tables here
+                try:
                     insert_org_statement = f"""
                         INSERT INTO org (
                             id,
@@ -119,8 +119,9 @@ def process(cur, conn, filepath):
                 # print(insert_statement)
                     cur.execute(insert_statement)
 
-                else:
                 # Insert data which does not have org data into event table here
+                except:
+                
                     insert_statement = f"""
                         INSERT INTO events (
                             id,

@@ -8,11 +8,12 @@ from cassandra.cluster import Cluster
 
 table_drop = "DROP TABLE events"
 
-table_create = """
+table_create_events = """
     CREATE TABLE IF NOT EXISTS events
     (
         id text,
         type text,
+        actor text,
         public boolean,
         created_at timestamp,
         PRIMARY KEY (
@@ -23,7 +24,7 @@ table_create = """
 """
 
 create_table_queries = [
-    table_create,
+    table_create_events,
 ]
 drop_table_queries = [
     table_drop,
@@ -71,16 +72,26 @@ def process(session, filepath):
             data = json.loads(f.read())
             for each in data:
                 # Print some sample data
-                print(each["id"], each["type"], each["actor"]["login"])
+                print(each["id"], each["type"],each["public"],each["created_at"])
 
                 # Insert data into tables here
+                query = f"""
+                    INSERT INTO events (
+                        id,
+                        type,
+                        actor,
+                        public,
+                        created_at
+                    ) VALUES ('{each["id"]}', '{each["type"]}', '{each["actor"]["login"]}',
+                    {each["public"]},'{each["created_at"]}');
+                    """
+                session.execute(query)
 
-
-def insert_sample_data(session):
-    query = f"""
-    INSERT INTO events (id, type, public,created_at) VALUES ('23487929637', 'IssueCommentEvent', true, '2022-08-17T15:51:05Z')
-    """
-    session.execute(query)
+#def insert_sample_data(session):
+    #query = f"""
+    #INSERT INTO events (id, type, public,created_at) VALUES ('23487929637', 'IssueCommentEvent', true, '2022-08-17T15:51:05Z')
+    #"""
+    #session.execute(query)
 
 
 def main():
@@ -107,12 +118,12 @@ def main():
     drop_tables(session)
     create_tables(session)
 
-    # process(session, filepath="../data")
-    insert_sample_data(session)
+    process(session, filepath="../data")
+    #insert_sample_data(session)
 
     # Select data in Cassandra and print them to stdout
     query = """
-    SELECT * from events WHERE id = '23487929637' AND type = 'IssueCommentEvent'
+    SELECT * from events WHERE type = 'PushEvent' ALLOW FILTERING
     """
     try:
         rows = session.execute(query)

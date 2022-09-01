@@ -12,3 +12,14 @@ pip install -r requirements.txt
 ```
 sudo apt install -y libpq-dev
 ```
+
+# Running Postgres
+```
+docker-compose up
+```
+
+# Running ETL Scripts
+```
+python create_tables.py
+python etl.py
+```

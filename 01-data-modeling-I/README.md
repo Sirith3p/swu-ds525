@@ -23,3 +23,4 @@ docker-compose up
 python create_tables.py
 python etl.py
 ```
+![alt text](https://github.com/Sirith3p/swu-ds525/01-data-modeling-I/Project1_ER_diagram.jpg

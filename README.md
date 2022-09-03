@@ -1,3 +1,3 @@
 # SWU-DS525
 
-##Project I: Data Modeling I
+Project I: Data Modeling I

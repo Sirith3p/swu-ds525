@@ -5,10 +5,11 @@ from typing import List
 
 from cassandra.cluster import Cluster
 
-
+#drop the exist tables
 table_drop_events = "DROP TABLE events"
 table_drop_actors = "DROP TABLE actors"
 
+#create tables
 table_create_events = """
     CREATE TABLE IF NOT EXISTS events
     (
@@ -79,6 +80,9 @@ def get_files(filepath: str) -> List[str]:
 
 
 def process(session, filepath):
+    """
+    Description: This function is used for insert data into events table
+    """
     # Get list of files from filepath
     all_files = get_files(filepath)
 
@@ -105,6 +109,11 @@ def process(session, filepath):
 
 
 def insert_sample_data(session):
+    """
+    Description: This function is used for query data from events table and count the events of each actors.
+    Then, the query data are inserted into actors table.
+    """
+    #Query data from event table and count number of the events of each actor
     count_actors = """
     SELECT actor_id, actor, count(actor_id) as count_no from events GROUP BY actor_id ALLOW FILTERING
     """
@@ -112,7 +121,7 @@ def insert_sample_data(session):
     try:
         rows = session.execute(count_actors)
         for row in rows:
-        # Insert data into tables here
+        # Insert data into actor tables here
             query_actors = f"""
                 INSERT INTO actors (
                 actor_id,
@@ -125,15 +134,8 @@ def insert_sample_data(session):
     except Exception as e:
         print(e)
 
-
-
-    #query = f"""
-    #INSERT INTO events (id, type, public,created_at) VALUES ('23487929637', 'IssueCommentEvent', true, '2022-08-17T15:51:05Z')
-    #"""
-    #session.execute(query)
-
-
 def main():
+    #Connect to cluster
     cluster = Cluster(['127.0.0.1'])
     session = cluster.connect()
 
@@ -154,13 +156,16 @@ def main():
     except Exception as e:
         print(e)
 
+    #drop and create table
     drop_tables(session)
     create_tables(session)
 
+    #insert data to events and actors tables
     process(session, filepath="../data")
     insert_sample_data(session)
 
     # Select data in Cassandra and print them to stdout
+    #Try to query data from event
     query = """
     SELECT * from events WHERE type = 'PushEvent' ALLOW FILTERING
     """
@@ -174,6 +179,7 @@ def main():
         print(row)
 
     # Select data in Cassandra and print them
+    #Try to query data from actors
     query = """
     SELECT actor_id, actor, number_events from actors 
     WHERE number_events > 1 ALLOW FILTERING

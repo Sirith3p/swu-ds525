@@ -17,7 +17,8 @@ python etl.py
 ```
 
 # Data Model
-![alt text](https://github.com/Sirith3p/swu-ds525/blob/a5a783b799ea710a42c0867e95a4053e348c0d88/02-data-modeling-II/Project2_table.png)
+![alt text](https://github.com/Sirith3p/swu-ds525/blob/80be3b868393e62b7394aebe587bd7330ea79c48/02-data-modeling-II/Project2_table.png)
+
 
 # Examples of query from events table
 ```

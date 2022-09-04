@@ -17,8 +17,9 @@ python etl.py
 ```
 
 # Data Model
+![alt text](https://github.com/Sirith3p/swu-ds525/blob/a5a783b799ea710a42c0867e95a4053e348c0d88/01-data-modeling-II/Project2_table.png)
 
-# Example of query from events table
+# Examples of query from events table
 ```
 query PushEvent
 Row(actor_id='106313266', created_at=datetime.datetime(2022, 8, 17, 15, 55, 5), actor='kenobiwins', id='23488014712', public=True, type='PushEvent')
@@ -31,7 +32,7 @@ Row(actor_id='5146167', created_at=datetime.datetime(2022, 8, 17, 15, 51, 5), ac
 Row(actor_id='101674460', created_at=datetime.datetime(2022, 8, 17, 15, 53, 42), actor='EliOceanak', id='23487985289', public=True, type='PushEvent')
 ```
 
-# Example of query from actors table
+# Examples of query from actors table
 ```
 query number of events by each actor if number of event more than 1
 Row(actor_id='77382887', actor='by-d-sign', number_events=2)

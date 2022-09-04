@@ -6,7 +6,8 @@ from typing import List
 from cassandra.cluster import Cluster
 
 
-table_drop = "DROP TABLE events"
+table_drop_events = "DROP TABLE events"
+table_drop_actors = "DROP TABLE actors"
 
 table_create_events = """
     CREATE TABLE IF NOT EXISTS events
@@ -19,16 +20,29 @@ table_create_events = """
         created_at timestamp,
         PRIMARY KEY (
             (actor_id),
-            id
+            created_at
+        )
+    )
+"""
+table_create_actors = """
+    CREATE TABLE IF NOT EXISTS actors
+    (
+        actor_id text,
+        actor text,
+        number_events int,
+        PRIMARY KEY (
+            actor_id
         )
     )
 """
 
 create_table_queries = [
-    table_create_events
+    table_create_events,
+    table_create_actors
 ]
 drop_table_queries = [
-    table_drop,
+    table_drop_events,
+    table_drop_actors
 ]
 
 def drop_tables(session):
@@ -90,7 +104,29 @@ def process(session, filepath):
                 session.execute(query_events)
 
 
-#def insert_sample_data(session):
+def insert_sample_data(session):
+    count_actors = """
+    SELECT actor_id, actor, count(actor_id) as count_no from events GROUP BY actor_id ALLOW FILTERING
+    """
+
+    try:
+        rows = session.execute(count_actors)
+        for row in rows:
+        # Insert data into tables here
+            query_actors = f"""
+                INSERT INTO actors (
+                actor_id,
+                actor,
+                number_events
+                ) VALUES ('{row[0]}', '{row[1]}', {row[2]});
+                """
+            session.execute(query_actors)
+        #print(row)
+    except Exception as e:
+        print(e)
+
+
+
     #query = f"""
     #INSERT INTO events (id, type, public,created_at) VALUES ('23487929637', 'IssueCommentEvent', true, '2022-08-17T15:51:05Z')
     #"""
@@ -122,7 +158,7 @@ def main():
     create_tables(session)
 
     process(session, filepath="../data")
-    #insert_sample_data(session)
+    insert_sample_data(session)
 
     # Select data in Cassandra and print them to stdout
     query = """
@@ -139,10 +175,11 @@ def main():
 
     # Select data in Cassandra and print them
     query = """
-    SELECT actor_id, actor, count(actor_id) as count_no from events GROUP BY actor_id ALLOW FILTERING
+    SELECT actor_id, actor, number_events from actors 
+    WHERE number_events > 1 ALLOW FILTERING
     """
     try:
-        print("query number of events by each actor")
+        print("query number of events by each actor if number of event more than 1")
         rows = session.execute(query)
     except Exception as e:
         print(e)

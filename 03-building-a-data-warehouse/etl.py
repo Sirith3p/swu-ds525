@@ -79,7 +79,7 @@ insert_table_queries = [
     """
     INSERT INTO
       actors (
-        id, name, url
+        id, login, display_login,gravatar_id,url,avatar_url
       )
     SELECT
       DISTINCT actor_id, actor_login, actor_display_login, 
@@ -92,7 +92,7 @@ insert_table_queries = [
     """
     INSERT INTO
       repo (
-        id, login, display_login, gravatar_id, url, avatar_url
+        id, name, url
       )
     SELECT
       DISTINCT repo_id, repo_name, repo_url 

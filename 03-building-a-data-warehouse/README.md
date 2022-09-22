@@ -43,6 +43,7 @@ python etl.py
 
 ## Tables after running etl script
 Loading file from S3 to Redshift: [staging events table](https://github.com/Sirith3p/swu-ds525/blob/3037a4da201242f28410bc4be38f036ec8a142ee/03-building-a-data-warehouse/table/staging_events.csv)
+
 Other tables which were inserted data from staging events table
 - [Events](https://github.com/Sirith3p/swu-ds525/blob/d213b2e51d59f89321559dad21d087dd489c769c/03-building-a-data-warehouse/table/events.csv)
 - [Actors](https://github.com/Sirith3p/swu-ds525/blob/d213b2e51d59f89321559dad21d087dd489c769c/03-building-a-data-warehouse/table/actors.csv)

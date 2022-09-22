@@ -12,6 +12,6 @@
       "$.repo.name",
       "$.repo.url",
       "$.public",
-      "$.created_at",
+      "$.created_at"
     ]
   }

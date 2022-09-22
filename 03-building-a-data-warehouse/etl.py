@@ -57,9 +57,9 @@ create_table_queries = [
 
 copy_table_queries = [
     """
-    COPY staging_events FROM 's3://zkan-swu-labs/github_events_01.json'
-    CREDENTIALS 'aws_iam_role=arn:aws:iam::377290081649:role/LabRole'
-    JSON 's3://zkan-swu-labs/events_json_path.json'
+    COPY staging_events FROM 's3://sirithep-ds525/github_events_01.json'
+    CREDENTIALS 'aws_iam_role=arn:aws:iam::053768193071:role/LabRole'
+    JSON 's3://sirithep-ds525/events_json_path.json'
     REGION 'us-east-1'
     """,
 ]
@@ -140,7 +140,7 @@ def main():
 
     drop_tables(cur, conn)
     create_tables(cur, conn)
-    load_tables(cur, conn)
+    load_staging_tables(cur, conn)
     insert_tables(cur, conn)
 
     postgreSQL_select_Query = "select * from events"

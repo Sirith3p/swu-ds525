@@ -219,7 +219,7 @@ def _process(**context):
 
 with DAG(
     "etl",
-    start_date=timezone.datetime(2022, 10, 31),
+    start_date=timezone.datetime(2022, 10, 30),
     schedule="@daily",
     tags=["workshop","DS525"],
     catchup=False,
@@ -243,4 +243,4 @@ with DAG(
         python_callable=_process,
     )
 
-    [get_files, create_tables] >> process
+    get_files >> create_tables >> process

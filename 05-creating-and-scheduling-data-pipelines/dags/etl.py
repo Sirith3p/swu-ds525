@@ -249,7 +249,7 @@ with DAG(
         task_id="process",
         python_callable=_process,
     )
-
+    
     #create process flow
     get_files >> create_tables >> process
 

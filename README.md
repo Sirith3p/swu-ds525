@@ -1,7 +1,7 @@
 # SWU-DS525
 
 ## Project I: Data Modeling I
-[Link to Project 1](https://github.com/Sirith3p/swu-ds525/blob/main/02-data-modeling-I)
+[Link to Project 1](https://github.com/Sirith3p/swu-ds525/blob/main/01-data-modeling-I)
 
 ## Project II: Data Modeling II
 [Link to Project 2](https://github.com/Sirith3p/swu-ds525/blob/main/02-data-modeling-II)

@@ -24,7 +24,7 @@ In this project, we assign that the process updates daily.
 ![alt text](https://github.com/Sirith3p/swu-ds525/blob/main/05-creating-and-scheduling-data-pipelines/images/proj5-1.png)
 
 ## Results from the data pipeline
-We can find the 4 tables which were created in Postgres.
+We can find the 4 tables which were created in Postgres via port `8088`.
 ![alt text](https://github.com/Sirith3p/swu-ds525/blob/main/05-creating-and-scheduling-data-pipelines/images/proj5-3.png)
 
 Each table was inserted the data as described data model and showed the examples as belows:

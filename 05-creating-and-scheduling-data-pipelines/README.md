@@ -11,7 +11,7 @@ $ docker-compose up
 After installed dockker-compose file, Airflow UI can be accessed via port `8080`
 
 ## Create the data pipelines
-Please see the process in this python source file: [etl](https://github.com/Sirith3p/swu-ds525/blob/0f8072eeb356467a29acdc03b56ecb8e55b342af/05-creating-and-scheduling-data-pipelines/dags/etl.py)
+Please see the process in this python source file: [Source code etl.py](https://github.com/Sirith3p/swu-ds525/blob/0f8072eeb356467a29acdc03b56ecb8e55b342af/05-creating-and-scheduling-data-pipelines/dags/etl.py)
 
 ### The pipeline structure
 ![alt text](https://github.com/Sirith3p/swu-ds525/blob/main/05-creating-and-scheduling-data-pipelines/images/proj5-2.png)

@@ -252,3 +252,5 @@ with DAG(
 
     #create process flow
     get_files >> create_tables >> process
+
+    #end

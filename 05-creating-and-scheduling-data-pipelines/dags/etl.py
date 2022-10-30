@@ -94,6 +94,7 @@ def _create_tables():
 
 
 def _process(**context):
+    #connect to Postgres
     hook = PostgresHook(postgres_conn_id="my_postgres")
     conn = hook.get_conn()
     cur = conn.cursor()
@@ -104,6 +105,7 @@ def _process(**context):
     all_files = ti.xcom_pull(task_ids="get_files", key="return_value")
     # all_files = get_files(filepath)
 
+    #insert data into each table
     for datafile in all_files:
         with open(datafile, "r") as f:
             data = json.loads(f.read())
@@ -216,15 +218,18 @@ def _process(**context):
 
                 conn.commit()
 
-
+#create DAG in airflow 
 with DAG(
+    #name of DAG
     "etl",
+    #assign the start date, scheduling and tags
     start_date=timezone.datetime(2022, 10, 30),
     schedule="@daily",
     tags=["workshop","DS525"],
     catchup=False,
 ) as dag:
 
+    #create task to get file from folder 'data' 
     get_files = PythonOperator(
         task_id="get_files",
         python_callable=_get_files,
@@ -233,14 +238,17 @@ with DAG(
         }
     )
 
+    #create task to create table from function '_create_tables'
     create_tables = PythonOperator(
         task_id="create_tables",
         python_callable=_create_tables,
     )
-    
+
+    #create task to insert data into table from function '_process'
     process = PythonOperator(
         task_id="process",
         python_callable=_process,
     )
 
+    #create process flow
     get_files >> create_tables >> process

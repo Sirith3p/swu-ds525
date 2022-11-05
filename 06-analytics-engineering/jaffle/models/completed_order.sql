@@ -4,8 +4,8 @@ SELECT
     , o.status
     , c.first_name
     , c.last_name 
-FROM jaffle_shop_orders as o
-JOIN jaffle_shop_customers as c
+FROM {{source('jaffle','jaffle_shop_orders')}} as o
+JOIN {{source('jaffle','jaffle_shop_customers')}} as c
 on
     o.user_id = c.id
 WHERE status = 'completed' 

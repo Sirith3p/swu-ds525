@@ -14,3 +14,6 @@
 
 ## Project V: Creating and Scheduling Data pipelines
 [Link to Project 5](https://github.com/Sirith3p/swu-ds525/blob/main/05-creating-and-scheduling-data-pipelines)
+
+## Project VI: Analytics engineering
+[Link to Project 6](https://github.com/Sirith3p/swu-ds525/blob/main/06-analytics-engineering)

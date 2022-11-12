@@ -68,4 +68,4 @@ dbt docs serve
 ```
 
 ### Lineage graph
-![alt text](https://github.com/Sirith3p/swu-ds525/blob/06-analytics-engineering/proj6.png)
+![alt text](https://github.com/Sirith3p/swu-ds525/blob/1dbd3466c6611665edc2dbaf2602966935569ae0/06-analytics-engineering/proj6.png)

@@ -17,3 +17,6 @@
 
 ## Project VI: Analytics engineering
 [Link to Project 6](https://github.com/Sirith3p/swu-ds525/blob/main/06-analytics-engineering)
+
+## Project VII: Data visualization
+[Link to Project 7](https://github.com/Sirith3p/swu-ds525/blob/main/07-data-visualization)

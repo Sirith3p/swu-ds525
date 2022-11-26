@@ -6,4 +6,4 @@
 ## Dashboard (Public Tableau)
 [Go to Dashboard](https://public.tableau.com/app/profile/sirithep.pl/viz/DS525_Project7_DataViz/BKK_stafflose#2)
 
-![alt text](https://github.com/Sirith3p/swu-ds525/blob/main/07-data-visualizaation/dashboard.png)
+![alt text](https://github.com/Sirith3p/swu-ds525/blob/main/07-data-visualization/dashboard.png)

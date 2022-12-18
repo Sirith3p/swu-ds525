@@ -29,13 +29,13 @@ def _create_tables():
     table_create_retails = """
         CREATE TABLE IF NOT EXISTS retails(
             sales_outlet_id bigint NOT NULL,
-            sales_outlet_type text,
-            store_address text,
-            store_city text,
-            store_state text,
-            store_postal_code text,
-            store_longitude text,
-            store_latitude text
+            sales_outlet_type VARCHAR,
+            store_address VARCHAR,
+            store_city VARCHAR,
+            store_state VARCHAR,
+            store_postal_code VARCHAR,
+            store_longitude VARCHAR,
+            store_latitude VARCHAR
         )
     """
 
@@ -43,10 +43,10 @@ def _create_tables():
     table_create_food_products = """
         CREATE TABLE IF NOT EXISTS food_products(
             product_id bigint NOT NULL,
-            product_group text,
-            product_category text,
-            product_type text,
-            product text,
+            product_group VARCHAR,
+            product_category VARCHAR,
+            product_type VARCHAR,
+            product VARCHAR,
             wholesale_price float,
             retail_price float
         )
@@ -55,10 +55,10 @@ def _create_tables():
     table_create_customers = """
         CREATE TABLE IF NOT EXISTS customers(
             customer_id bigint NOT NULL,
-            loyalty_card_number text,
-            gender text,
-            birth_year text,
-            generation text
+            loyalty_card_number VARCHAR,
+            gender VARCHAR,
+            birth_year VARCHAR,
+            generation VARCHAR
         )
     """
 
@@ -67,11 +67,11 @@ def _create_tables():
         CREATE TABLE IF NOT EXISTS pastry_sales(
             product_id bigint,
             sales_outlet_id bigint,
-            transaction_date text,
-            all_piece text,
-            sold_piece text,
-            waste text,
-            waste_prop text
+            transaction_date VARCHAR,
+            all_piece VARCHAR,
+            sold_piece VARCHAR,
+            waste VARCHAR,
+            waste_prop VARCHAR
         )
     """
 
@@ -79,11 +79,11 @@ def _create_tables():
     table_create_sales = """
         CREATE TABLE IF NOT EXISTS sales(
             sale_id bigint NOT NULL,
-            product_id text,
-            sales_outlet_id text,
-            customer_id text,
-            sale_date text,
-            sale_time text
+            sale_date VARCHAR,
+            sale_time VARCHAR,
+            sales_outlet_id bigint,
+            customer_id bigint,
+            product_id bigint
           )
     """
 
@@ -103,45 +103,45 @@ def _copy_tables():
     # Copy data from S3 to the table we created above
     table_query_retails = """
     COPY retails FROM 's3://ds525-capstoneproject/cleaned/retail'
-    ACCESS_KEY_ID 'ASIAQZBGVQQX232IGJ23'
-    SECRET_ACCESS_KEY 'K4nGJkAgr4K3Ls9O9szJPaqDPwQSGF19ygy8J2tL'
-    SESSION_TOKEN 'FwoGZXIvYXdzEAcaDKh+dEOsN1i/W3Z93yLJATM6I2zrPOJPvo53ykhZENen2007gKEbhk1/FCgEIBFZQLlLkX51agl82OsA/SxIDs1vlJi9MsNaAQ0tHCm8rMM3K/nI9lqX3R71yegYX1SNdb9AJeMcvlgyCrJFmzm7JhjxkzXPzGPa1cYjnb/I1wjDCgJSJW2paBJSBONTuPN2HcwynVkhKf0hVBksblf4XH+Kg8wadhJ5BIQhzubSxBpF9fgVQXNt3MsSSRZydjP794niinFr/ymwyrexzmartoQ4lIezXE5djSiYhfecBjItaTJyYDm5zDQXAG/pIbV+X6+0r4P4sqBWpy2x2XByGVFEJWRgLdU7KcJZwwgf'
+    ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
+    SECRET_ACCESS_KEY 'LQFoW2ixHXMxqXowVeCxVWeRF2iCltqwuDdokRsg'
+    SESSION_TOKEN 'FwoGZXIvYXdzEB4aDDJ7IkWcj1u2yVC0/CLJAaxTDezgxWWJi7FYAc65Beh5J02BJNFZ+F81CbBrqNVaGaI/CoPFfrhFAIbsAmceUrqqgQ5/BRa/yjKdRLmAWfD4Pgp0yEe1+hdZATpY1ACJWREFhmfwPgtRwNy18I3eT0x209ps/RmMG3nkPsUNcXbCf5942j1sRUhln6CIGmUp5lqHFW//il4sXdqhZ+ae5yxzmAuRrQ/uS9nm5SqtuwcFDyQTmqhZDKXf4m8Jj4onNIdWk7cLQ5S3NUs6/rm/8cyIG8jikPDQxCihmPycBjItOzDBWAhr7T7iPtvjEW2hk/yBdiJoEvM0cr6Hj7zwZq2I9HJZJetZIkC4Yl9E'
     CSV
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
     table_query_food_products="""
     COPY food_products FROM 's3://ds525-capstoneproject/cleaned/food'
-    ACCESS_KEY_ID 'ASIAQZBGVQQX232IGJ23'
-    SECRET_ACCESS_KEY 'K4nGJkAgr4K3Ls9O9szJPaqDPwQSGF19ygy8J2tL'
-    SESSION_TOKEN 'FwoGZXIvYXdzEAcaDKh+dEOsN1i/W3Z93yLJATM6I2zrPOJPvo53ykhZENen2007gKEbhk1/FCgEIBFZQLlLkX51agl82OsA/SxIDs1vlJi9MsNaAQ0tHCm8rMM3K/nI9lqX3R71yegYX1SNdb9AJeMcvlgyCrJFmzm7JhjxkzXPzGPa1cYjnb/I1wjDCgJSJW2paBJSBONTuPN2HcwynVkhKf0hVBksblf4XH+Kg8wadhJ5BIQhzubSxBpF9fgVQXNt3MsSSRZydjP794niinFr/ymwyrexzmartoQ4lIezXE5djSiYhfecBjItaTJyYDm5zDQXAG/pIbV+X6+0r4P4sqBWpy2x2XByGVFEJWRgLdU7KcJZwwgf'
+    ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
+    SECRET_ACCESS_KEY 'LQFoW2ixHXMxqXowVeCxVWeRF2iCltqwuDdokRsg'
+    SESSION_TOKEN 'FwoGZXIvYXdzEB4aDDJ7IkWcj1u2yVC0/CLJAaxTDezgxWWJi7FYAc65Beh5J02BJNFZ+F81CbBrqNVaGaI/CoPFfrhFAIbsAmceUrqqgQ5/BRa/yjKdRLmAWfD4Pgp0yEe1+hdZATpY1ACJWREFhmfwPgtRwNy18I3eT0x209ps/RmMG3nkPsUNcXbCf5942j1sRUhln6CIGmUp5lqHFW//il4sXdqhZ+ae5yxzmAuRrQ/uS9nm5SqtuwcFDyQTmqhZDKXf4m8Jj4onNIdWk7cLQ5S3NUs6/rm/8cyIG8jikPDQxCihmPycBjItOzDBWAhr7T7iPtvjEW2hk/yBdiJoEvM0cr6Hj7zwZq2I9HJZJetZIkC4Yl9E'
     CSV
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
     table_query_customers="""
     COPY customers FROM 's3://ds525-capstoneproject/cleaned/customers'
-    ACCESS_KEY_ID 'ASIAQZBGVQQX232IGJ23'
-    SECRET_ACCESS_KEY 'K4nGJkAgr4K3Ls9O9szJPaqDPwQSGF19ygy8J2tL'
-    SESSION_TOKEN 'FwoGZXIvYXdzEAcaDKh+dEOsN1i/W3Z93yLJATM6I2zrPOJPvo53ykhZENen2007gKEbhk1/FCgEIBFZQLlLkX51agl82OsA/SxIDs1vlJi9MsNaAQ0tHCm8rMM3K/nI9lqX3R71yegYX1SNdb9AJeMcvlgyCrJFmzm7JhjxkzXPzGPa1cYjnb/I1wjDCgJSJW2paBJSBONTuPN2HcwynVkhKf0hVBksblf4XH+Kg8wadhJ5BIQhzubSxBpF9fgVQXNt3MsSSRZydjP794niinFr/ymwyrexzmartoQ4lIezXE5djSiYhfecBjItaTJyYDm5zDQXAG/pIbV+X6+0r4P4sqBWpy2x2XByGVFEJWRgLdU7KcJZwwgf'
+    ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
+    SECRET_ACCESS_KEY 'LQFoW2ixHXMxqXowVeCxVWeRF2iCltqwuDdokRsg'
+    SESSION_TOKEN 'FwoGZXIvYXdzEB4aDDJ7IkWcj1u2yVC0/CLJAaxTDezgxWWJi7FYAc65Beh5J02BJNFZ+F81CbBrqNVaGaI/CoPFfrhFAIbsAmceUrqqgQ5/BRa/yjKdRLmAWfD4Pgp0yEe1+hdZATpY1ACJWREFhmfwPgtRwNy18I3eT0x209ps/RmMG3nkPsUNcXbCf5942j1sRUhln6CIGmUp5lqHFW//il4sXdqhZ+ae5yxzmAuRrQ/uS9nm5SqtuwcFDyQTmqhZDKXf4m8Jj4onNIdWk7cLQ5S3NUs6/rm/8cyIG8jikPDQxCihmPycBjItOzDBWAhr7T7iPtvjEW2hk/yBdiJoEvM0cr6Hj7zwZq2I9HJZJetZIkC4Yl9E'
     CSV
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
     table_query_pastry_sales="""
     COPY pastry_sales FROM 's3://ds525-capstoneproject/cleaned/pastry_sales'
-    ACCESS_KEY_ID 'ASIAQZBGVQQX232IGJ23'
-    SECRET_ACCESS_KEY 'K4nGJkAgr4K3Ls9O9szJPaqDPwQSGF19ygy8J2tL'
-    SESSION_TOKEN 'FwoGZXIvYXdzEAcaDKh+dEOsN1i/W3Z93yLJATM6I2zrPOJPvo53ykhZENen2007gKEbhk1/FCgEIBFZQLlLkX51agl82OsA/SxIDs1vlJi9MsNaAQ0tHCm8rMM3K/nI9lqX3R71yegYX1SNdb9AJeMcvlgyCrJFmzm7JhjxkzXPzGPa1cYjnb/I1wjDCgJSJW2paBJSBONTuPN2HcwynVkhKf0hVBksblf4XH+Kg8wadhJ5BIQhzubSxBpF9fgVQXNt3MsSSRZydjP794niinFr/ymwyrexzmartoQ4lIezXE5djSiYhfecBjItaTJyYDm5zDQXAG/pIbV+X6+0r4P4sqBWpy2x2XByGVFEJWRgLdU7KcJZwwgf'
+    ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
+    SECRET_ACCESS_KEY 'LQFoW2ixHXMxqXowVeCxVWeRF2iCltqwuDdokRsg'
+    SESSION_TOKEN 'FwoGZXIvYXdzEB4aDDJ7IkWcj1u2yVC0/CLJAaxTDezgxWWJi7FYAc65Beh5J02BJNFZ+F81CbBrqNVaGaI/CoPFfrhFAIbsAmceUrqqgQ5/BRa/yjKdRLmAWfD4Pgp0yEe1+hdZATpY1ACJWREFhmfwPgtRwNy18I3eT0x209ps/RmMG3nkPsUNcXbCf5942j1sRUhln6CIGmUp5lqHFW//il4sXdqhZ+ae5yxzmAuRrQ/uS9nm5SqtuwcFDyQTmqhZDKXf4m8Jj4onNIdWk7cLQ5S3NUs6/rm/8cyIG8jikPDQxCihmPycBjItOzDBWAhr7T7iPtvjEW2hk/yBdiJoEvM0cr6Hj7zwZq2I9HJZJetZIkC4Yl9E'
     CSV
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
     table_query_sales="""
     COPY sales FROM 's3://ds525-capstoneproject/cleaned/sales'
-    ACCESS_KEY_ID 'ASIAQZBGVQQX232IGJ23'
-    SECRET_ACCESS_KEY 'K4nGJkAgr4K3Ls9O9szJPaqDPwQSGF19ygy8J2tL'
-    SESSION_TOKEN 'FwoGZXIvYXdzEAcaDKh+dEOsN1i/W3Z93yLJATM6I2zrPOJPvo53ykhZENen2007gKEbhk1/FCgEIBFZQLlLkX51agl82OsA/SxIDs1vlJi9MsNaAQ0tHCm8rMM3K/nI9lqX3R71yegYX1SNdb9AJeMcvlgyCrJFmzm7JhjxkzXPzGPa1cYjnb/I1wjDCgJSJW2paBJSBONTuPN2HcwynVkhKf0hVBksblf4XH+Kg8wadhJ5BIQhzubSxBpF9fgVQXNt3MsSSRZydjP794niinFr/ymwyrexzmartoQ4lIezXE5djSiYhfecBjItaTJyYDm5zDQXAG/pIbV+X6+0r4P4sqBWpy2x2XByGVFEJWRgLdU7KcJZwwgf'
+    ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
+    SECRET_ACCESS_KEY 'LQFoW2ixHXMxqXowVeCxVWeRF2iCltqwuDdokRsg'
+    SESSION_TOKEN 'FwoGZXIvYXdzEB4aDDJ7IkWcj1u2yVC0/CLJAaxTDezgxWWJi7FYAc65Beh5J02BJNFZ+F81CbBrqNVaGaI/CoPFfrhFAIbsAmceUrqqgQ5/BRa/yjKdRLmAWfD4Pgp0yEe1+hdZATpY1ACJWREFhmfwPgtRwNy18I3eT0x209ps/RmMG3nkPsUNcXbCf5942j1sRUhln6CIGmUp5lqHFW//il4sXdqhZ+ae5yxzmAuRrQ/uS9nm5SqtuwcFDyQTmqhZDKXf4m8Jj4onNIdWk7cLQ5S3NUs6/rm/8cyIG8jikPDQxCihmPycBjItOzDBWAhr7T7iPtvjEW2hk/yBdiJoEvM0cr6Hj7zwZq2I9HJZJetZIkC4Yl9E'
     CSV
     IGNOREHEADER 1
     REGION 'us-east-1'

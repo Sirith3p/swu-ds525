@@ -16,9 +16,12 @@
 
 ## Data pipeline and related technologies
 
-### 1. Loading data into data lake
-### 2. Cleansing and Transforming data
+### 1.&2. Loading data into data lake and Cleansing and Transforming data
+Source code: [01 and 02 create data lake](https://github.com/Sirith3p/swu-ds525/blob/67b6f0de77ab3f863043f2f1ee5a04425e643a8e/capstone-project/dags/01_etl_s3.ipynb)
+
 ### 3.&4. Creating table in data warehouse and Inserting data from lake into warehouse
+Source code: [03 and 04 create tables in data warehouse and insert data into tables](https://github.com/Sirith3p/swu-ds525/blob/67b6f0de77ab3f863043f2f1ee5a04425e643a8e/capstone-project/dags/02_dwh.py)
+
 ### 5. Analysis and Visualization
 
 เพื่อให้เราสามารถสร้างไฟล์ได้จาก Jupyter Lab ให้รันคำสั่งด้านล่างนี้

@@ -1,3 +1,4 @@
+# Import library ที่เกี่ยวข้อง
 import json
 import glob
 import os
@@ -9,6 +10,7 @@ from airflow.utils import timezone
 from airflow.operators.python import PythonOperator
 #from airflow.providers.postgres.hooks.postgres import PostgresHook
 
+# กำหนด settings ในการเชื่อมต่อกับ Amazon Redshift
 host = "redshift-cluster-capstone.cfzeqwb4b9xc.us-east-1.redshift.amazonaws.com"
 dbname = "dev"
 user = "awsuser"
@@ -18,6 +20,7 @@ conn_str = f"host={host} dbname={dbname} user={user} password={password} port={p
 conn = psycopg2.connect(conn_str)
 cur = conn.cursor()
 
+# Create create table function
 def _create_tables():
     # Drop table if it exists
     drop_table_query = "DROP TABLE IF EXISTS retails, customers, food_products, pastry_sales, sales"
@@ -98,9 +101,11 @@ def _create_tables():
         cur.execute(query)
         conn.commit()
 
+# Create copy table function เพื่อนำข้อมูลจาก cleaned zone เข้าสู่ datawarehouse
 def _copy_tables():
     ##############################
     # Copy data from S3 to the table we created above
+    # Copy data to retail table
     table_query_retails = """
     COPY retails FROM 's3://ds525-capstoneproject/cleaned/retail'
     ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
@@ -110,6 +115,8 @@ def _copy_tables():
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
+
+    # Copy data to food products table
     table_query_food_products="""
     COPY food_products FROM 's3://ds525-capstoneproject/cleaned/food'
     ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
@@ -119,6 +126,8 @@ def _copy_tables():
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
+
+    # Copy data to customers table
     table_query_customers="""
     COPY customers FROM 's3://ds525-capstoneproject/cleaned/customers'
     ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
@@ -128,6 +137,8 @@ def _copy_tables():
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
+
+    # Copy data to pastry sales table
     table_query_pastry_sales="""
     COPY pastry_sales FROM 's3://ds525-capstoneproject/cleaned/pastry_sales'
     ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
@@ -137,6 +148,8 @@ def _copy_tables():
     IGNOREHEADER 1
     REGION 'us-east-1'
     """
+
+    # Copy data to sales table
     table_query_sales="""
     COPY sales FROM 's3://ds525-capstoneproject/cleaned/sales'
     ACCESS_KEY_ID 'ASIAQZBGVQQXRKPPWVNE'
@@ -168,7 +181,7 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    #create task to get file from folder 'data' 
+    #create task to get file from folder 'cleaned' in S3 
     copy_tables = PythonOperator(
         task_id="copy_tables",
         python_callable=_copy_tables,
@@ -183,12 +196,6 @@ with DAG(
         python_callable=_create_tables,
     )
 
-    #create task to insert data into table from function '_process'
-    #process = PythonOperator(
-    #    task_id="process",
-    #    python_callable=_process,
-    #)
-    
     #create process flow
     create_tables >> copy_tables
 

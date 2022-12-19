@@ -32,13 +32,13 @@
 ### 1.&2. Loading data into data lake and Cleansing and Transforming data
 - Create S3 bucket for building datalake
 - Import data and cleasing data as the below code
-Source code: [01 and 02 create data lake](https://github.com/Sirith3p/swu-ds525/blob/67b6f0de77ab3f863043f2f1ee5a04425e643a8e/capstone-project/dags/01_etl_s3.ipynb)
+- Source code: [01 and 02 create data lake](https://github.com/Sirith3p/swu-ds525/blob/67b6f0de77ab3f863043f2f1ee5a04425e643a8e/capstone-project/dags/01_etl_s3.ipynb)
 <br>
 
 ### 3.&4. Creating table in data warehouse and Inserting data from lake into warehouse
 - Create Amazon Redshift for building datawarehouse
 - Run the below code for automated creating and inserting tables processs
-Source code: [03 and 04 create tables in data warehouse and insert data into tables](https://github.com/Sirith3p/swu-ds525/blob/67b6f0de77ab3f863043f2f1ee5a04425e643a8e/capstone-project/dags/02_dwh.py)
+- Source code: [03 and 04 create tables in data warehouse and insert data into tables](https://github.com/Sirith3p/swu-ds525/blob/67b6f0de77ab3f863043f2f1ee5a04425e643a8e/capstone-project/dags/02_dwh.py)
 <br>
 
 ### 5. Analysis and Visualization

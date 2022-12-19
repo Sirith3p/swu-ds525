@@ -7,7 +7,7 @@
 [Coffee shop sample data](https://www.kaggle.com/datasets/ylchang/coffee-shop-sample-data-1113)
 <br>
 
-ํYoutube clip [Link Youtube](https://youtu.be/WR9KkNFu9kY)
+ํYoutube clip [Link Youtube](https://youtu.be/E557vRDh_y4)
 <br>
 
 ## สมมติปัญหา

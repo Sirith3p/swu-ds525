@@ -31,6 +31,11 @@
 ## Instruction
 ### 1.&2. Loading data into data lake and Cleansing and Transforming data
 - Create S3 bucket for building datalake
+- Run docker-compose.yml to set the environment by 
+```
+$ cd capstone-project
+$ docker-compose up
+```
 - Import data and cleasing data as the below code
 - Source code: [01 and 02 create data lake](https://github.com/Sirith3p/swu-ds525/blob/67b6f0de77ab3f863043f2f1ee5a04425e643a8e/capstone-project/dags/01_etl_s3.ipynb)
 <br>
